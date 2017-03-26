@@ -13,5 +13,17 @@ def getAllLinks(page):
   while url:
     url, endPos = getNextLink(page)
     if url:
-      link.append[url]
+      links.append[url]
       page = page[endPos:]
+  return links
+
+def crawlWeb(seed):
+  toCrawl = [seed]
+  crawled = []
+  while toCrawl:
+    page = toCrawl.pop()
+    if page not in crawled:
+      links = getAllLinks(getPage(page))
+      toCrawl.extend(links)
+      crawled.append(page)
+  return crawled
