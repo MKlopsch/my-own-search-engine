@@ -17,15 +17,36 @@ def getAllLinks(page):
       page = page[endPos:]
   return links
 
-def crawlWeb(seed, max_pages):
+def union(p,b):
+    for i in b:
+        if i not in a:
+            a.append(i)
+
+def crawlWeb(seed, maxPages):
   toCrawl = [seed]
   crawled = []
-  while toCrawl:
+  while toCrawl and len(crawled) <= maxPages:
     page = toCrawl.pop()
     if page not in crawled:
       links = getAllLinks(getPage(page))
-      toCrawl.extend(links)
+      union(toCrawl, links)
       crawled.append(page)
-    if len(crawled) == max_pages:
-      break
   return crawled
+
+# The following function limits the depth of the crawl
+#
+# def crawlWeb(seed, max_depth):    
+#     toCrawl = [seed]
+#     crawled = []
+#     nextDepth = []
+#     depth = 0
+#     while toCrawl and depth <= maxDepth:
+#         page = toCrawl.pop()
+#         if page not in crawled:
+#             links = getAllLinks(getPage(page))
+#             union(nextDepth, links)
+#             crawled.append(page)
+#         if not toCrawl:
+#             toCrawl, nextDepth = nextDepth, []
+#             depth = depth + 1
+#     return crawled
