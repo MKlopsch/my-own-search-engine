@@ -17,7 +17,7 @@ def getAllLinks(page):
       page = page[endPos:]
   return links
 
-def crawlWeb(seed):
+def crawlWeb(seed, max_pages):
   toCrawl = [seed]
   crawled = []
   while toCrawl:
@@ -26,4 +26,6 @@ def crawlWeb(seed):
       links = getAllLinks(getPage(page))
       toCrawl.extend(links)
       crawled.append(page)
+    if len(crawled) == max_pages:
+      break
   return crawled
