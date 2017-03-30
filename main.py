@@ -1,3 +1,5 @@
+import urllib
+
 def getNextLink(page):
   startLink = page.find("<a href=")
   if startLink == -1:
@@ -25,13 +27,16 @@ def union(p,b):
 def crawlWeb(seed, maxPages):
   toCrawl = [seed]
   crawled = []
+  index = []
   while toCrawl and len(crawled) <= maxPages:
     page = toCrawl.pop()
     if page not in crawled:
-      links = getAllLinks(getPage(page))
+      pageContent = getPage(page)
+      addPageToIndex(index, page, pageContent)
+      links = getAllLinks(pageContent)
       union(toCrawl, links)
       crawled.append(page)
-  return crawled
+  return index
 
 # The following function limits the depth of the crawl
 #
@@ -64,3 +69,14 @@ def lookup(index, keyword):
         if entry[0] == keyword:
             return entry[1]
     return []
+
+def addPageToIndex(index, url, content):
+    keywords = content.split()
+    for keyword in keywords:
+        addToIndex(index, keyword, url)
+
+def getPage(url):
+  try:
+    return urllib.urlopen(url).read()
+  except:
+    return ""
