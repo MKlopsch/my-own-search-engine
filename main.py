@@ -15,11 +15,11 @@ def getAllLinks(page):
   while url:
     url, endPos = getNextLink(page)
     if url:
-      links.append[url]
+      links.append(url)
       page = page[endPos:]
   return links
 
-def union(p,b):
+def union(a, b):
     for i in b:
         if i not in a:
             a.append(i)
