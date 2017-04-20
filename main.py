@@ -27,7 +27,7 @@ def union(a, b):
 def crawlWeb(seed, maxPages):
   toCrawl = [seed]
   crawled = []
-  index = []
+  index = {}
   while toCrawl and len(crawled) <= maxPages:
     page = toCrawl.pop()
     if page not in crawled:
@@ -57,18 +57,19 @@ def crawlWeb(seed, maxPages):
 #     return crawled
 
 def addToIndex(index, keyword, url):
-  for entry in index:
-    if entry[0] == keyword:
-      entry[1].append(url)
+  if keyword in index:
+      index[keyword].append(url)
       return
-  index.append([keyword, [url]])
-  return
+  # not found, add new keyword to index
+  else:
+      index[keyword] = [url]
+      return
 
 def lookup(index, keyword):
-    for entry in index:
-        if entry[0] == keyword:
-            return entry[1]
-    return []
+    if keyword in index:
+        return index[keyword]
+    else:
+        return None
 
 def addPageToIndex(index, url, content):
     keywords = content.split()
