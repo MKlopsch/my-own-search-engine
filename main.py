@@ -28,15 +28,17 @@ def crawlWeb(seed, maxPages):
   toCrawl = [seed]
   crawled = []
   index = {}
+  graph = {}
   while toCrawl and len(crawled) <= maxPages:
     page = toCrawl.pop()
     if page not in crawled:
       pageContent = getPage(page)
       addPageToIndex(index, page, pageContent)
-      links = getAllLinks(pageContent)
-      union(toCrawl, links)
+      outlinks = getAllLinks(pageContent)
+      
+      union(toCrawl, outlinks)
       crawled.append(page)
-  return index
+  return index, graph
 
 # The following function limits the depth of the crawl
 #
