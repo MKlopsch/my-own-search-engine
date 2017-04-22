@@ -103,3 +103,16 @@ def compute_ranks(graph):
             newranks[page] = newrank
         ranks = newranks
     return ranks
+
+def bestResult(index, ranks, keyword):
+    try:
+        links = index[keyword]
+    except:
+        return None
+    maxVal = 0
+    maxIndex = 0
+    for i in range(len(links)):
+        if ranks[links[i]] > maxVal:
+            maxVal = ranks[links[i]]
+            maxIndex = i
+    return links[maxIndex]
