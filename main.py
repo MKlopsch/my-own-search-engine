@@ -105,11 +105,10 @@ def compute_ranks(graph):
     return ranks
 
 def bestResult(index, ranks, keyword):
-    try:
-        links = index[keyword]
-    except:
+    links = lookup(index, keyword)
+    if not links:
         return None
-    maxVal = 0
+    maxVal = ranks[links[0]]
     maxIndex = 0
     for i in range(len(links)):
         if ranks[links[i]] > maxVal:
